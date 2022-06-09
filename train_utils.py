@@ -640,17 +640,13 @@ def cluster(data, n_clusters):
 
 
 def set_gpu_and_device(gpu):
-    repo_name = str(pathlib.Path(__file__).resolve().parents[1]).split("/")[-1]
+    """ Get device name and gpu number. Set gpu to 0 and device to cuda:0 if gpu is None and if cuda is available."""
     if torch.cuda.is_available():
-        if gpu != None:
-            device = "cuda:" + str(gpu)
+        if gpu is None:
+            device = "cuda:0"
+            gpu = 0
         else:
-            if repo_name == "noa":
-                device = "cuda:0"
-                gpu = 0
-            elif repo_name == "gustav":
-                device = "cuda:1"
-                gpu = 1
+            device = "cuda:" + str(gpu)
     else:
         device = "cpu"
 
